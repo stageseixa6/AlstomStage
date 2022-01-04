@@ -1,0 +1,77 @@
+[18-Jun-2021 08:50:02 UTC] PHP Warning:  Undefined variable $param in /home/pcyp3525/public_html/core/Router.php on line 151
+[18-Jun-2021 08:50:02 UTC] PHP Warning:  require(/home/pcyp3525/public_html/view/default/index.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/view/default/index.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Controller.php:40
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(41): Controller->render()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:09 UTC] PHP Warning:  Undefined variable $param in /home/pcyp3525/public_html/core/Router.php on line 151
+[18-Jun-2021 08:50:09 UTC] PHP Warning:  require(/home/pcyp3525/public_html/view/default/index.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:09 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/view/default/index.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Controller.php:40
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(41): Controller->render()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:19 UTC] PHP Warning:  require(/home/pcyp3525/public_html/controller/Http:Controller.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Dispatcher.php on line 53
+[18-Jun-2021 08:50:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/controller/Http:Controller.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Dispatcher.php:53
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(25): Dispatcher->loadController()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Dispatcher.php on line 53
+[18-Jun-2021 08:50:19 UTC] PHP Warning:  require(/home/pcyp3525/public_html/controller/Http:Controller.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Dispatcher.php on line 53
+[18-Jun-2021 08:50:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/controller/Http:Controller.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Dispatcher.php:53
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(25): Dispatcher->loadController()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Dispatcher.php on line 53
+[18-Jun-2021 08:50:19 UTC] PHP Warning:  Undefined variable $param in /home/pcyp3525/public_html/core/Router.php on line 151
+[18-Jun-2021 08:50:19 UTC] PHP Warning:  require(/home/pcyp3525/public_html/view/default/index.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/view/default/index.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Controller.php:40
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(41): Controller->render()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:23 UTC] PHP Warning:  Undefined variable $param in /home/pcyp3525/public_html/core/Router.php on line 151
+[18-Jun-2021 08:50:23 UTC] PHP Warning:  require(/home/pcyp3525/public_html/view/default/index.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/view/default/index.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Controller.php:40
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(41): Controller->render()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:26 UTC] PHP Warning:  Undefined variable $param in /home/pcyp3525/public_html/core/Router.php on line 151
+[18-Jun-2021 08:50:26 UTC] PHP Warning:  require(/home/pcyp3525/public_html/view/default/index.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:50:26 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/view/default/index.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Controller.php:40
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(41): Controller->render()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:51:22 UTC] PHP Warning:  require(/home/pcyp3525/public_html/controller/Http:Controller.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Dispatcher.php on line 53
+[18-Jun-2021 08:51:22 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/controller/Http:Controller.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Dispatcher.php:53
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(25): Dispatcher->loadController()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Dispatcher.php on line 53
+[18-Jun-2021 08:51:22 UTC] PHP Warning:  Undefined variable $param in /home/pcyp3525/public_html/core/Router.php on line 151
+[18-Jun-2021 08:51:22 UTC] PHP Warning:  require(/home/pcyp3525/public_html/view/default/index.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:51:22 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/view/default/index.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Controller.php:40
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(41): Controller->render()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:51:24 UTC] PHP Warning:  Undefined variable $param in /home/pcyp3525/public_html/core/Router.php on line 151
+[18-Jun-2021 08:51:24 UTC] PHP Warning:  require(/home/pcyp3525/public_html/view/default/index.php): Failed to open stream: No such file or directory in /home/pcyp3525/public_html/core/Controller.php on line 40
+[18-Jun-2021 08:51:24 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/pcyp3525/public_html/view/default/index.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/pcyp3525/public_html/core/Controller.php:40
+Stack trace:
+#0 /home/pcyp3525/public_html/core/Dispatcher.php(41): Controller->render()
+#1 /home/pcyp3525/public_html/webroot/index.php(19): Dispatcher->__construct()
+#2 {main}
+  thrown in /home/pcyp3525/public_html/core/Controller.php on line 40

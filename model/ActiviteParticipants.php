@@ -1,0 +1,6 @@
+<?php
+
+class ActiviteParticipants extends Model {
+    //put your code here
+    var $table = 'INVITE INNER JOIN LISTE_INVITES on INVITE.ID_PERS_EXTERIEUR = LISTE_INVITES.ID_INVITE INNER JOIN INSCRIPTION on LISTE_INVITES.ID_INSCRIPTION = INSCRIPTION.ID';
+}

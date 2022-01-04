@@ -1,0 +1,120 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 18 juil. 2017, 08:48:59
+    Author     : travail
+*/
+
+#header_img {
+    background-image: url("../img/banniere.JPG");
+    height: 150px;
+}
+.admin{
+    visibility: visible;
+}
+.etu{
+    display:none;
+}
+
+.important{
+    color: red;
+}
+
+/*Afficher mdp*/
+.field-icon {
+    float: right;
+    margin: -25px 5px -25px 0;
+    position: relative;
+    z-index: 2;
+}
+
+#couleur {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 5rem;
+    justify-content: center;
+}
+
+#couleur div{
+    height: 20px;
+    width: 20px;
+    margin: 0 1rem 0 5rem;
+    border-radius: 20%;
+
+}
+
+#couleur div:first-child{
+    margin-left: 0;
+}
+
+
+#jaune{
+    background-color: #f0ad4e;
+}
+
+#bleu{
+    background-color: #5bc0de;
+}
+
+#vert{
+    background-color: #5cb85c;
+}
+
+#rouge{
+    background-color: #d9534f;
+}
+
+#blanc{
+    background-color: #EFEFEF;
+    border: 1px solid black;
+}
+
+#noir{
+    background-color: black;
+}
+
+.btn-noir {
+    background-color: black;
+    color: white;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.mdp_perdu{
+    color: cornflowerblue;
+    text-decoration: underline;
+}
+
+.mdp_perdu .mdptext {
+    visibility: hidden;
+    width: 300px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.mdp_perdu:hover .mdptext {
+    visibility: visible;
+}
+
+#live_montant{
+    color: red;
+    font-weight: bold;
+    margin-left: 6.5rem;
+}
