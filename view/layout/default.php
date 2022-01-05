@@ -1,7 +1,6 @@
 <?php
 
 // Vérification connexion :
-
 if(!isset($_SESSION['ID_ADHERENT'])){
     //header('Location: ' . BASE_URL . '/connexion/connexion');
     $current_page = explode("/", $_SERVER['REQUEST_URI']);
@@ -78,11 +77,11 @@ if(!isset($_SESSION['ID_ADHERENT'])){
     <?php
     if (null !== Session::get('ID_ADHERENT')) {
         if (null !== Session::get('STATUT_TMP')) {
-            echo '<li><td><button id = "singlebutton" name = "singlebutton" class = "btn btn-info" onclick="window.location.href=\'' . BASE_URL . '/connexion/accueil\'">' . Session::get('STATUT_TMP') . '</button></td></il>';
+            echo '<li><td><button id = "singlebutton" name = "singlebutton" class = "btn btn-info" onclick="window.location.href=\'' . '/connexion/accueil\'">' . Session::get('STATUT_TMP') . '</button></td></il>';
         }
-        echo '<li ><a href="' . BASE_URL . '/connexion/deconnexion" class="pull-righ"> Déconnexion </a> </li>';
+        echo '<li ><a href="' . '/connexion/deconnexion" class="pull-righ"> Déconnexion </a> </li>';
     } else {
-        echo '<li ><a href="' . BASE_URL . '/connexion/connexion"> Connexion </a> </li>';
+        echo '<li ><a href="' . '/connexion/connexion"> Connexion </a> </li>';
     }
     ?>
 

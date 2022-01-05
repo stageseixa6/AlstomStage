@@ -53,7 +53,7 @@
                             echo '<button id="singlebutton" name="singlebutton" class="btn btn-' . (($c->STATUT) == 'A' ? 'warning' : ($c->STATUT == 'V' ? 'info' :($c->STATUT=='S'? 'noir': ($c->STATUT == 'O' ? 'success' : ($c->STATUT == 'F' ? 'danger' : ($c->STATUT == 'T' ? 'secondary' : 'secondary')))))) . '" onclick="window.location.href=\'' . BASE_URL . '/activiteLeader/formulaireCreneau/' . $id['idActivite'] = $a->ID_ACTIVITE . $id['idCreneau'] = (isset($c->NUM_CRENEAU) ? '_' . $c->NUM_CRENEAU : '') . '\'">' . date_format($date, 'd-m-Y') . ' - ' . substr($c->HEURE_CRENEAU, 0, -3) . '</button>';
                         }
                     }
-                    echo '<button id="singlebutton" name="singlebutton" class="btn btn-info" onclick="window.location.href=\'' . BASE_URL . '/activiteLeader/formulaireCreneau/' . $a->ID_ACTIVITE . '\'">+</button>';
+                    echo '<button id="singlebutton" name="singlebutton" class="btn btn-info" onclick="window.location.href=\'' . '/activiteLeader/formulaireCreneau/' . $a->ID_ACTIVITE . '\'">+</button>';
                     ?>
                 </td>
             </tr>

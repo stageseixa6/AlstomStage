@@ -11,8 +11,8 @@
                 <td><?= $a->DETAIL ?></td>
                 <td><?= $a->VILLE ?></td>
                 <!-- <td><?= $a->DATE_ACTIVITE ?></td> -->
-                <td><button id="singlebutton" name="singlebutton" class="btn btn-info" onclick="window.location.href = '<?= BASE_URL ?>/activite/consulter/<?= $a->ID_ACTIVITE ?>'">Voir</button></td>
-                <td><button id="singlebutton" name="singlebutton" class="btn btn-info" onclick="window.location.href = '<?= BASE_URL ?>/activite/formulaireInscription/<?= $a->ID_ACTIVITE ?>'">S'inscrire</button></td>
+                <td><button id="singlebutton" name="singlebutton" class="btn btn-info" onclick="window.location.href = '/activite/consulter/<?= $a->ID_ACTIVITE ?>'">Voir</button></td>
+                <td><button id="singlebutton" name="singlebutton" class="btn btn-info" onclick="window.location.href = '/activite/formulaireInscription/<?= $a->ID_ACTIVITE ?>'">S'inscrire</button></td>
             </tr>
 
         <?php endforeach; ?>
