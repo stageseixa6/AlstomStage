@@ -411,7 +411,8 @@ class ActiviteController extends Controller
         if (isset($_POST['famille'])) $nombreinscription += count($_POST['famille']);
         if (isset($_POST['ext'])) $nombreinscription += count($_POST['ext']);
         if ($_POST['AUTO_PARTICIPATION'] == 1) $nombreinscription++;
-
+        echo 'nombreinscription';
+        var_dump($nombreinscription);
 
         if (!($nombreinscription > $effectifc->places - $effectifc->inscrits)) {
 
@@ -579,15 +580,17 @@ class ActiviteController extends Controller
         // requete 3 pour récupérer les info de l'inscription
         $modInscription = $this->loadModel('Inscription');
         $projectionI['conditions'] = "ID_ACTIVITE = {$ID_ACTIVITE} AND ID_ADHERENT = {$_SESSION['ID_ADHERENT']}";
+        var_dump($ID_ACTIVITE);
+        var_dump($_SESSION['ID_ADHERENT']);
         $d['inscription'] = $modInscription->findfirst($projectionI);
-
+        var_dump($d['inscription']);
 
         //requete 4 : on recupère la liste des invites
         $modListeInvite = $this->loadModel('ListeInviteNom');
-        $projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']->ID}";
+        //$projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']->ID}";
+        $projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']}";
         $d['invites'] = $modListeInvite->find($projectionL);
-
-
+        var_dump($d['invites']);
         $modCreneaudate = $this->loadModel('ListeCreneau');
         $projectionM['projection'] = "CRENEAU.DATE_PAIEMENT";
         $projectionM['conditions'] = "ID_ACTIVITE = {$ID_ACTIVITE} AND NUM_CRENEAU = {$d['inscription']->CRENEAU}";

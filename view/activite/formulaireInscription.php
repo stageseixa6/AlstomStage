@@ -110,7 +110,15 @@
 
 
             <td>
-                <?php if (!empty($creneaux)) { ?>
+                <?php if (!empty($creneaux)) {
+                    echo "creneaux";
+                    var_dump($creneaux);
+                    echo "prix adulte";
+                    var_dump( $donnees->PRIX_ADULTE);
+                    echo "invites famille";
+                    var_dump($invitesfamille);
+                    echo "id activité";
+                    var_dump($donnees->ID_ACTIVITE);?>
                     <button id="singlebutton" name="singlebutton" class="btn btn-info">S'inscrire</button>
                 <?php } else { ?>
                     <button disabled id="singlebutton" name="singlebutton" class="btn btn-info">S'inscrire</button>
@@ -245,9 +253,9 @@
     let prix_enfant = <?= $donnees->PRIX_ENFANT ?>;
     <?php if(isset($donnees->PRIX_ENFANT_EXT)) ?>
     let prix_enfant_ext = <?= $donnees->PRIX_ENFANT_EXT ?>;
+
+
     function calculMontantLive(){
-
-
         let auto_participation = document.getElementById('AUTO_PARTICIPATION');
         let extSelectInput = document.getElementsByClassName("participantext");
         let familleSelectInput = document.getElementsByClassName("participantfamille");
