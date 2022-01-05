@@ -57,11 +57,31 @@ class ActiviteAdminController extends Controller {
         $donnees["COUT_ENFANT"] = $_POST["COUT_ENFANT"];
         $donnees["AGE_MINIMUM"] = $_POST["AGE_MINIMUM"];
         $donnees["OUVERT_EXT"] = $_POST["OUVERT_EXT"];
-        $donnees["PRIX_ADULTE"] = $_POST["PRIX_ADULTE"];
-        $donnees["PRIX_ADULTE_EXT"] = $_POST["PRIX_ADULTE_EXT"];
-        $donnees["PRIX_ENFANT"] = $_POST["PRIX_ENFANT"];
+        if(isset($_POST["PRIX_ADULTE"])) {
+            $donnees["PRIX_ADULTE"] = $_POST["PRIX_ADULTE"];
+            var_dump($_POST["PRIX_ADULTE"]);
+        }
+        if($_POST["PRIX_ADULTE_EXT"]!='') {
+            $donnees["PRIX_ADULTE_EXT"] = $_POST["PRIX_ADULTE_EXT"];
+            var_dump($_POST["PRIX_ADULTE_EXT"]);
+        }
+        else{
+            $donnees["PRIX_ADULTE_EXT"] = 0;
+        }
+        if($_POST["PRIX_ENFANT"]!='') {
+            $donnees["PRIX_ENFANT"] = $_POST["PRIX_ENFANT"];
+        }
+        else{
+            $donnees["PRIX_ENFANT"] = 0;
+        }
+        if($_POST["PRIX_ENFANT_EXT"]!='') {
+            $donnees["PRIX_ENFANT_EXT"] = $_POST["PRIX_ENFANT_EXT"];
+        }
+        else{
+            $donnees["PRIX_ENFANT_EXT"] = 0;
+        }
 
-        $donnees["PRIX_ENFANT_EXT"] = $_POST["PRIX_ENFANT_EXT"];
+
         $tab = array('conditions' => array('ID_ACTIVITE' => $ID_ACTIVITE), 'donnees' => $donnees);
 //appeler la methode update
         $modActivite->update($tab);
