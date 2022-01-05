@@ -232,7 +232,7 @@ class Model
     }
 
     //inserer une ligne avec une colonne en ai
-    function insertAI($colonnes, $donnees, $debug = FALSE)
+    function insertAI($colonnes, $donnees, $debug = TRUE)
     {
         $sql = 'insert into ' . $this->table . ' ( ';
         $sql .= implode(',', $colonnes);

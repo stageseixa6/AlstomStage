@@ -430,8 +430,17 @@ class ActiviteController extends Controller
             $donnees['AUTO_PARTICIPATION'] = $_POST['AUTO_PARTICIPATION'];
             $donnees['CRENEAU'] = $_POST['CRENEAU'];
             $donnees['DATE_INSCRIPTION'] = date('Y-m-d');
-            $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['famille'], $_POST['ext']);
-
+            if(isset($_POST['famille'])) {
+                $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['famille']);
+            }
+            elseif (isset($_POST['ext'])){
+                $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['ext']);
+            }
+            else{
+                $donnees['MONTANT'] = $this->calculMontant($id, $adh, NULL);
+            }
+            //$donnees['DATE_PAIEMENT'] = date_create('0000-00-00');
+            //$donnees['DATE_DESINSCRIPTION'] = date_create('0000-00-00');
 
             $modInscription = $this->loadModel('Inscription');
             // Test si l'on est pas déjà inscrit !
@@ -587,8 +596,8 @@ class ActiviteController extends Controller
 
         //requete 4 : on recupère la liste des invites
         $modListeInvite = $this->loadModel('ListeInviteNom');
-        //$projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']->ID}";
-        $projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']}";
+        $projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']->ID}";
+        //$projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']}";
         $d['invites'] = $modListeInvite->find($projectionL);
         var_dump($d['invites']);
         $modCreneaudate = $this->loadModel('ListeCreneau');
