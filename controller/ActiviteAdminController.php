@@ -136,6 +136,7 @@ class ActiviteAdminController extends Controller {
         //$modActivite = $this->loadModel('ActiviteAdmin');
         $donnees["ID_ACTIVITE"] = $ID_ACTIVITE;
         $donnees["DATE_CRENEAU"] = $_POST['DATE_CRENEAU'];
+        $donnees["DATE_PAIEMENT"] = $_POST['DATE_PAIEMENT'];
         $donnees["HEURE_CRENEAU"] = $_POST['HEURE_CRENEAU'];
         $donnees["EFFECTIF_CRENEAU"] = $_POST["EFFECTIF_CRENEAU"];
         $donnees["STATUT"] = 'A';
@@ -151,7 +152,7 @@ class ActiviteAdminController extends Controller {
         }
         $donnees["NUM_CRENEAU"] = $nbCreneau + 1;
 
-        $colonnes = array('ID_ACTIVITE', 'DATE_CRENEAU', 'HEURE_CRENEAU', 'EFFECTIF_CRENEAU', 'STATUT', 'NUM_CRENEAU');
+        $colonnes = array('ID_ACTIVITE', 'DATE_CRENEAU', 'HEURE_CRENEAU', 'EFFECTIF_CRENEAU', 'STATUT', 'NUM_CRENEAU', 'DATE_PAIEMENT');
         //appeler la méthode insert
         $modCreneau->insert($colonnes, $donnees);
 

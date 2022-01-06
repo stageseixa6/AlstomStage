@@ -18,5 +18,4 @@ define ('CORE',ROOT.DS.'core');
 include CORE.DS.'includes.php';
 
 $d=new Dispatcher();
-echo 'yo';
 
