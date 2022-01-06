@@ -310,6 +310,7 @@ class ActiviteLeaderController extends Controller
         $donnees["HEURE_CRENEAU"] = $_POST['HEURE_CRENEAU'];
         $donnees["DATE_PAIEMENT"] = $_POST['DATE_PAIEMENT'];
         $donnees["EFFECTIF_CRENEAU"] = $_POST["EFFECTIF_CRENEAU"];
+        $donnees["COMMENTAIRE"] = "";
         $donnees["STATUT"] = 'A';
 
         // Récupération du nombre de créneau pour une activité
@@ -323,7 +324,8 @@ class ActiviteLeaderController extends Controller
         }
         $donnees["NUM_CRENEAU"] = $nbCreneau + 1;
 
-        $colonnes = array('ID_ACTIVITE', 'DATE_CRENEAU', 'HEURE_CRENEAU', 'DATE_PAIEMENT', 'EFFECTIF_CRENEAU', 'STATUT', 'NUM_CRENEAU');
+        var_dump($donnees);
+        $colonnes = array('ID_ACTIVITE', 'DATE_CRENEAU', 'HEURE_CRENEAU', 'DATE_PAIEMENT', 'EFFECTIF_CRENEAU', 'COMMENTAIRE', 'STATUT', 'NUM_CRENEAU' );
         //appeler la méthode insert
         $modCreneau->insert($colonnes, $donnees);
 
@@ -345,10 +347,19 @@ class ActiviteLeaderController extends Controller
         $donnees["DATE_CRENEAU"] = $_POST['DATE_CRENEAU'];
         $donnees["HEURE_CRENEAU"] = $_POST['HEURE_CRENEAU'];
         $donnees["EFFECTIF_CRENEAU"] = $_POST["EFFECTIF_CRENEAU"];
+        if(isset($_POST["STATUT"]))
         $donnees["STATUT"] = $_POST["STATUT"];
+        else
+            $donnees["STATUT"]='A';
+        if(isset($_POST["COMMENTAIRE"]))
         $donnees["COMMENTAIRE"] = $_POST["COMMENTAIRE"];
+        else
+            $donnees["COMMENTAIRE"]='';
+        var_dump($donnees);
+        var_dump($ID_ACTIVITE);
+        var_dump($NUM_CRENEAU);
         $colonnes = array('ID_ACTIVITE', 'DATE_CRENEAU', 'HEURE_CRENEAU', 'EFFECTIF_CRENEAU', 'STATUT', 'NUM_CRENEAU', 'COMMENTAIRE');
-        $tab = array('conditions' => array('ID_ACTIVITE' => $ID_ACTIVITE, 'NUM_CRENEAU' => $NUM_CRENEAU), 'donnees' => $donnees);
+        $tab = array('conditions' => array('ID_ACTIVITE' => $ID_ACTIVITE, 'NUM_CRENEAU' => $NUM_CRENEAU),'donnees' => $donnees);
         //appeler la methode update
         $modCreneau->update($tab);
         $this->liste();

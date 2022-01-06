@@ -91,6 +91,7 @@
                 <div class="col-md-3" id="creneau">
 
                     <select name="CRENEAU" id="creneau">
+
                         <?php if (!empty($creneaux)) {
                             foreach ($creneaux as $creneau):
                                 $date = date_create($creneau->DATE_CRENEAU);
@@ -102,6 +103,7 @@
                             ?>
                             <option selected disabled value="">Il n'y a pas de créneau pour le moment.</option>
                             <?php
+
                         } ?>
                     </select>
                 </div>
@@ -217,7 +219,8 @@
         </fieldset>
     </form>
 
-<?php } ?>
+<?php }
+var_dump($creneaux);?>
 <td>
     <button id="singlebutton" name="singlebutton" class="btn btn-info"
             onclick="window.location.href = '../../activite/listerActivite'">Annuler
