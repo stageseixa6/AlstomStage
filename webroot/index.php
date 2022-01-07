@@ -38,6 +38,5 @@ $d=new Dispatcher();
     include CORE . DS . 'includes.php';
 
     $d = new Dispatcher();*/
-    echo 'yo';
 
 
