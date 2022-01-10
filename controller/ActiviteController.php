@@ -86,20 +86,29 @@ class ActiviteController extends Controller
 
         $modInscription = $this->loadModel('ActiviteParticipantsAdherent');
 
-        $projection['projection'] =
+        /*$projection['projection'] =
             'c.DATE_CRENEAU, 
     c.HEURE_CRENEAU, 
     c.EFFECTIF_CRENEAU,
     GROUP_CONCAT(inv.NOM, " ", inv.PRENOM SEPARATOR "<br>") as listeinv,
 	CASE 
     	WHEN AUTO_PARTICIPATION=1 THEN GROUP_CONCAT(DISTINCT a.NOM, " ", a.PRENOM SEPARATOR "<br>") 
-    	ELSE ""
     END as adh,
     CASE 
     	WHEN AUTO_PARTICIPATION=1 THEN COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)
     	ELSE COUNT(li.ID_INVITE)
-    END as effectif';
-
+    END as effectif';*/
+        $projection['projection'] = 'i.DATE_PAIEMENT, i.ID, c.DATE_CRENEAU, c.HEURE_CRENEAU,c.EFFECTIF_CRENEAU,
+i.PAYE, i.CRENEAU, i.ID_ADHERENT, 
+MONTANT, AUTO_PARTICIPATION, i.ID_ACTIVITE, 
+GROUP_CONCAT(a.NOM, a.PRENOM) as adh, 
+GROUP_CONCAT(inv.NOM, " ", inv.PRENOM separator "<br>") as listeinv,
+COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
+        $projection['conditions'] = "i.ID_ACTIVITE = {$id}";
+        $projection['groupby'] = "ID_ADHERENT";
+        $result = $modInscription->find($projection);
+        $d['inscrits'] = $result;
+        $this->set($d);
 
         $projection['conditions'] = "c.ID_ACTIVITE = {$id} AND c.STATUT = 'O'";
 
@@ -264,10 +273,6 @@ class ActiviteController extends Controller
 
         if (!($nombreinscription > $effectifc->places - $effectifc->inscrits)) {
 
-
-
-
-
             $ID_ADHERENT = Session::get('ID_ADHERENT');
             $ID_ACTIVITE = $id;
             $donnees = array();
@@ -413,32 +418,53 @@ class ActiviteController extends Controller
         if ($_POST['AUTO_PARTICIPATION'] == 1) $nombreinscription++;
         echo 'nombreinscription';
         var_dump($nombreinscription);
+        var_dump($effectifc->places);
+        var_dump($effectifc->inscrits);$donnees = array();
+        $donnees['ID_ACTIVITE'] = $id;
+        $donnees['ID_ADHERENT'] = $_SESSION['ID_ADHERENT'];
+        if ($_POST['AUTO_PARTICIPATION'] == 1) {
+            $adh = Session::get('ID_ADHERENT');
 
+        } else {
+            $adh = "non"; // l'adhérent ne participe pas
+        }
+        $donnees['AUTO_PARTICIPATION'] = $_POST['AUTO_PARTICIPATION'];
+        $donnees['CRENEAU'] = $_POST['CRENEAU'];
+        $donnees['DATE_INSCRIPTION'] = date('Y-m-d');
+        if(isset($_POST['famille'])) {
+            $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['famille']);
+        }
+        elseif (isset($_POST['ext'])){
+            $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['ext']);
+        }
+        else{
+            $donnees['MONTANT'] = $this->calculMontant($id, $adh, NULL);
+        }
         if (!($nombreinscription > $effectifc->places - $effectifc->inscrits)) {
 
 
             $valid = true;
-            $donnees = array();
-            $donnees['ID_ACTIVITE'] = $id;
-            $donnees['ID_ADHERENT'] = $_SESSION['ID_ADHERENT'];
-            if ($_POST['AUTO_PARTICIPATION'] == 1) {
-                $adh = Session::get('ID_ADHERENT');
-
-            } else {
-                $adh = "non"; // l'adhérent ne participe pas
-            }
-            $donnees['AUTO_PARTICIPATION'] = $_POST['AUTO_PARTICIPATION'];
-            $donnees['CRENEAU'] = $_POST['CRENEAU'];
-            $donnees['DATE_INSCRIPTION'] = date('Y-m-d');
-            if(isset($_POST['famille'])) {
-                $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['famille']);
-            }
-            elseif (isset($_POST['ext'])){
-                $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['ext']);
-            }
-            else{
-                $donnees['MONTANT'] = $this->calculMontant($id, $adh, NULL);
-            }
+//            $donnees = array();
+//            $donnees['ID_ACTIVITE'] = $id;
+//            $donnees['ID_ADHERENT'] = $_SESSION['ID_ADHERENT'];
+//            if ($_POST['AUTO_PARTICIPATION'] == 1) {
+//                $adh = Session::get('ID_ADHERENT');
+//
+//            } else {
+//                $adh = "non"; // l'adhérent ne participe pas
+//            }
+//            $donnees['AUTO_PARTICIPATION'] = $_POST['AUTO_PARTICIPATION'];
+//            $donnees['CRENEAU'] = $_POST['CRENEAU'];
+//            $donnees['DATE_INSCRIPTION'] = date('Y-m-d');
+//            if(isset($_POST['famille'])) {
+//                $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['famille']);
+//            }
+//            elseif (isset($_POST['ext'])){
+//                $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['ext']);
+//            }
+//            else{
+//                $donnees['MONTANT'] = $this->calculMontant($id, $adh, NULL);
+//            }
             //$donnees['DATE_PAIEMENT'] = date_create('0000-00-00');
             //$donnees['DATE_DESINSCRIPTION'] = date_create('0000-00-00');
 
@@ -499,17 +525,26 @@ class ActiviteController extends Controller
                 }
                 $this->set($d);
                 $this->mesActivites($id);
-                $this->render('mesActivites');
+                //$this->render('mesActivites');
             }
-        } else {
-
-
-            $d['info'] = "Une erreur est servenue : cette activité est pleine !";
+        }
+        //Si l'effectif est complet
+        else {
+            $donnees['ID_ACTIVITE'] = $id;
+            $donnees['ID_ADHERENT'] = $_SESSION['ID_ADHERENT'];
+            $donnees['CRENEAU'] = $_POST['CRENEAU'];
+            $donnees['DATE_INSCRIPTION'] = date('Y-m-d');
+            $d['info'] = "L'effectif de cette activité étant complet, vous avez été placé en liste d'attente";
             $this->set($d);
             $this->listerActivite();
             $this->render('listerActivite');
         }
 
+
+    }
+
+    function attente($idactivite){
+        $modAttente = $this->loadModel('Attente');
 
     }
 

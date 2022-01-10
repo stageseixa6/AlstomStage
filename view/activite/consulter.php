@@ -92,9 +92,13 @@
                                 <td>
 
                                     <?php
+                                    var_dump($c->adh);
+                                    var_dump($c->listeinv);
 
                                     if (!empty($c->adh)) {
-                                        if (!empty($c->listeinv)) echo $c->listeinv . '<br>';
+                                        if (!empty($c->listeinv)) {
+                                            echo $c->listeinv . '<br>';
+                                        }
                                         echo $c->adh;
                                     } else {
                                         echo $c->listeinv;
