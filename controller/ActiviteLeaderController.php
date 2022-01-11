@@ -144,10 +144,13 @@ class ActiviteLeaderController extends Controller
 
           $d['donnees'] = $participants;*/
         $modInscription = $this->loadModel('ActiviteParticipantsLeader');
-        $projection['projection'] = 'INSCRIPTION.DATE_PAIEMENT, INSCRIPTION.ID, CRENEAU.DATE_CRENEAU, CRENEAU.HEURE_CRENEAU,INSCRIPTION.PAYE, INSCRIPTION.CRENEAU, INSCRIPTION.ID_ADHERENT, MONTANT, AUTO_PARTICIPATION, INSCRIPTION.ID_ACTIVITE, ADHERENT.NOM as ADN, ADHERENT.PRENOM as ADP, GROUP_CONCAT(INVITE.NOM, " ", INVITE.PRENOM separator "<br>") as INN';
+        $projection['projection'] = 'INSCRIPTION.DATE_INSCRIPTION, INSCRIPTION.DATE_PAIEMENT, INSCRIPTION.ID, CRENEAU.DATE_CRENEAU, CRENEAU.HEURE_CRENEAU,INSCRIPTION.PAYE, INSCRIPTION.CRENEAU, INSCRIPTION.ID_ADHERENT, MONTANT, AUTO_PARTICIPATION, INSCRIPTION.ID_ACTIVITE, ADHERENT.NOM as ADN, ADHERENT.PRENOM as ADP, GROUP_CONCAT(INVITE.NOM, " ", INVITE.PRENOM separator "<br>") as INN, INSCRIPTION.ATTENTE as ATTENTE';
         $projection['conditions'] = "INSCRIPTION.ID_ACTIVITE = {$id}";
         $projection['groupby'] = "ID_ADHERENT";
+        $projection['order by'] = "INSCRIPTION.DATE_INSCRIPTION";
+        var_dump($projection);
         $result = $modInscription->find($projection);
+        var_dump($result);
         $d['inscrits'] = $result;
         $this->set($d);
         $this->render('inscrits');
@@ -191,8 +194,64 @@ class ActiviteLeaderController extends Controller
         // Rendu du formulaire
         $this->set($d);
         $this->render('gerer');
+    }
+
+    public function gererAttente($id)
+    {
+
+        // Récupérer l'adhérent et l'activité associé.
+        $modInscription = $this->loadModel('Inscription');
+        $projection['projection'] = 'CRENEAU, ID, ID_ACTIVITE, ID_ADHERENT, PAYE, DATE_PAIEMENT';
+        $projection['conditions'] = "ID = " . $id;
+        $d['donnees'] = $modInscription->findfirst($projection);
+
+        $modCreneau = $this->loadModel('ActiviteCreneauAdmin');
+        $projection['projection'] = 'NUM_CRENEAU, DATE_CRENEAU, HEURE_CRENEAU';
+        $projection['conditions'] = "STATUT = 'O' AND ID_ACTIVITE = ". $d['donnees']->ID_ACTIVITE;
+        $d['creneaux'] = $modCreneau->find($projection);
+
+//        echo'var_dump d';
+//        var_dump($d);
+        // Rendu du formulaire
+        $this->set($d);
+        $this->render('gererAttente');
+    }
+
+    public function passagePrincipale($id){
+        $modInscription = $this->loadModel('Inscription');
+        $modParticipants = $this->loadModel('ActiviteParticipantsAdherent');
+        $reqI['projection'] =
+            'CASE 
+    	        WHEN AUTO_PARTICIPATION=1 AND ATTENTE = 0 THEN COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)
+    	        ELSE COUNT(li.ID_INVITE)
+            END as inscrits,
+            c.EFFECTIF_CRENEAU as places';
+        $reqI['conditions'] = "c.ID_ACTIVITE = {$id} AND c.NUM_CRENEAU = {$_POST['creneau']}" ;
+        // $projection['groupby'] = "c.NUM_CRENEAU, c.ID_ACTIVITE";
+        $effectifc = $modParticipants->findfirst($reqI);
 
 
+        $nombreinscription = 1;
+        if (isset($_POST['famille'])) $nombreinscription += count($_POST['famille']);
+        if (isset($_POST['ext'])) $nombreinscription += count($_POST['ext']);
+        //if ($_POST['AUTO_PARTICIPATION'] == 1) $nombreinscription++;
+//        var_dump($_POST['creneau']);
+//        var_dump($id);
+//        var_dump($nombreinscription);
+//        var_dump($effectifc->places);
+//        var_dump($effectifc->inscrits);
+//        var_dump($_POST['id']);
+        if (!($nombreinscription > $effectifc->places - $effectifc->inscrits)) {
+            $donnees['ATTENTE'] = 0;
+            $tab = array('conditions' => array('ID' => $_POST['id']), 'donnees' => $donnees);
+            $modInscription->update($tab);
+            $d['info'] = "Passage en liste principale effectué";
+        }
+        else{
+            $d['info'] = "Passage en liste principale impossible, l'effectif est complet";
+        }
+        $this->set($d);
+        $this->gererAttente($_POST['id']);
     }
 
     function modifier($id)
@@ -324,7 +383,7 @@ class ActiviteLeaderController extends Controller
         }
         $donnees["NUM_CRENEAU"] = $nbCreneau + 1;
 
-        var_dump($donnees);
+//        var_dump($donnees);
         $colonnes = array('ID_ACTIVITE', 'DATE_CRENEAU', 'HEURE_CRENEAU', 'DATE_PAIEMENT', 'EFFECTIF_CRENEAU', 'COMMENTAIRE', 'STATUT', 'NUM_CRENEAU' );
         //appeler la méthode insert
         $modCreneau->insert($colonnes, $donnees);
@@ -348,16 +407,16 @@ class ActiviteLeaderController extends Controller
         $donnees["HEURE_CRENEAU"] = $_POST['HEURE_CRENEAU'];
         $donnees["EFFECTIF_CRENEAU"] = $_POST["EFFECTIF_CRENEAU"];
         if(isset($_POST["STATUT"]))
-        $donnees["STATUT"] = $_POST["STATUT"];
+            $donnees["STATUT"] = $_POST["STATUT"];
         else
             $donnees["STATUT"]='A';
         if(isset($_POST["COMMENTAIRE"]))
-        $donnees["COMMENTAIRE"] = $_POST["COMMENTAIRE"];
+            $donnees["COMMENTAIRE"] = $_POST["COMMENTAIRE"];
         else
             $donnees["COMMENTAIRE"]='';
-        var_dump($donnees);
-        var_dump($ID_ACTIVITE);
-        var_dump($NUM_CRENEAU);
+//        var_dump($donnees);
+//        var_dump($ID_ACTIVITE);
+//        var_dump($NUM_CRENEAU);
         $colonnes = array('ID_ACTIVITE', 'DATE_CRENEAU', 'HEURE_CRENEAU', 'EFFECTIF_CRENEAU', 'STATUT', 'NUM_CRENEAU', 'COMMENTAIRE');
         $tab = array('conditions' => array('ID_ACTIVITE' => $ID_ACTIVITE, 'NUM_CRENEAU' => $NUM_CRENEAU),'donnees' => $donnees);
         //appeler la methode update
@@ -443,6 +502,18 @@ class ActiviteLeaderController extends Controller
         $this->set($d);
         $this->inscrits($infoi->ID_ACTIVITE);
 
+    }
+
+    public function mail(){
+        ini_set( 'display_errors', 1 );
+        error_reporting( E_ALL );
+        $from = "test@hostinger-tutorials.fr";
+        $to = "remimorettimail@gmail.com";
+        $subject = "test mail";
+        $message = "test d'envoi de mail";
+        $headers = "De :" . $from;
+        mail($to,$subject,$message, $headers);
+        echo "L'email a été envoyé.";
     }
 }
 

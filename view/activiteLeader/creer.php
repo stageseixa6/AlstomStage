@@ -117,7 +117,7 @@
         </div>
 
 
-        <!-- Si l'on séléctionne le mode Unitaire (par défaut) : -->
+        <!-- Si l'on séléctionne le mode Unitaire (par défaut) : required="required" -->
         <div class="form-group" id="COUT_ADULTE_SELECT">
             <label class="col-md-2 control-label" for="textinput">Coût Adulte <span class="important">*</span> :</label>
             <div class="col-md-4">

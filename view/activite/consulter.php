@@ -92,8 +92,8 @@
                                 <td>
 
                                     <?php
-                                    var_dump($c->adh);
-                                    var_dump($c->listeinv);
+//                                    var_dump($c->adh);
+//                                    var_dump($c->listeinv);
 
                                     if (!empty($c->adh)) {
                                         if (!empty($c->listeinv)) {

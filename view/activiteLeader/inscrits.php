@@ -13,6 +13,13 @@
         <?php if (!empty($inscrits)) {
             foreach ($inscrits as $i){
                 $date = date_create($i->DATE_CRENEAU);
+        if($i->ATTENTE == 1) {
+            $redirect=BASE_URL . '/activiteLeader/gererAttente/' . $i->ID;
+        }
+        else{
+            $redirect=BASE_URL . '/activiteLeader/gerer/' . $i->ID;
+        }
+
                 ?>
 
             <tr>
@@ -23,7 +30,8 @@
                     <?= "{$i->ADN} {$i->ADP}" ?>
                 </td>
                 <td>
-                    <?= $i->AUTO_PARTICIPATION == 1 ? 'Oui' : 'Non' ?>
+                    <?= $i->AUTO_PARTICIPATION == 1 ? 'Oui' : 'Non' ;
+                    if($i->ATTENTE == 1) echo(" (en liste d'attente)") ;?>
                 </td>
                 <td>
                     <?= $i->INN ?>
@@ -32,7 +40,9 @@
                     <?= "{$i->MONTANT}€"?>
                     </td>
 
-                <td><a href="<?= BASE_URL . '/activiteLeader/gerer/' . $i->ID ?>"><button class="btn btn-primary">Gérer</button></a></td>
+                <td><a href="<?=
+                    $redirect;
+                    ?>"><button class="btn btn-primary">Gérer</button></a></td>
 
             </tr>
         <?php }} ?>

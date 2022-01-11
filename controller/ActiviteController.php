@@ -187,10 +187,10 @@ COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
 
         if (isset($invites)) {
             foreach ($invites as $inv) {
-                echo "invites=";
-                var_dump($invites);
-                echo "nouvel invité";
-                var_dump($inv);
+//                echo "invites=";
+//                var_dump($invites);
+//                echo "nouvel invité";
+//                var_dump($inv);
                 if ($inv->STATUT == 'FAMILLE') {
                     $famille[] = $inv->ID_INVITE;
                 } else if ($inv->STATUT == 'EXTERNE') {
@@ -404,7 +404,7 @@ COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
         $modInscription = $this->loadModel('ActiviteParticipantsAdherent');
         $reqI['projection'] =
             'CASE 
-    	        WHEN AUTO_PARTICIPATION=1 THEN COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)
+    	        WHEN AUTO_PARTICIPATION=1 AND ATTENTE = 0 THEN COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)
     	        ELSE COUNT(li.ID_INVITE)
             END as inscrits,
             c.EFFECTIF_CRENEAU as places';
@@ -412,14 +412,25 @@ COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
         // $projection['groupby'] = "c.NUM_CRENEAU, c.ID_ACTIVITE";
         $effectifc = $modInscription->findfirst($reqI);
 
+        //compter les personnes en attente
+        $reqIA['projection'] =
+            'CASE 
+    	        WHEN AUTO_PARTICIPATION=1 AND ATTENTE = 1 THEN COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)
+    	        ELSE COUNT(li.ID_INVITE)
+            END as inscrits,
+            c.EFFECTIF_CRENEAU as places';
+        $reqIA['conditions'] = "c.ID_ACTIVITE = {$id} AND c.NUM_CRENEAU = {$_POST['CRENEAU']}";
+        $effectifca = $modInscription->findfirst($reqIA);
+
         $nombreinscription = 0;
         if (isset($_POST['famille'])) $nombreinscription += count($_POST['famille']);
         if (isset($_POST['ext'])) $nombreinscription += count($_POST['ext']);
         if ($_POST['AUTO_PARTICIPATION'] == 1) $nombreinscription++;
         echo 'nombreinscription';
-        var_dump($nombreinscription);
-        var_dump($effectifc->places);
-        var_dump($effectifc->inscrits);$donnees = array();
+//        var_dump($nombreinscription);
+//        var_dump($effectifc->places);
+//        var_dump($effectifc->inscrits);$donnees = array();
+//        var_dump(($effectifca->places*3));
         $donnees['ID_ACTIVITE'] = $id;
         $donnees['ID_ADHERENT'] = $_SESSION['ID_ADHERENT'];
         if ($_POST['AUTO_PARTICIPATION'] == 1) {
@@ -431,6 +442,7 @@ COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
         $donnees['AUTO_PARTICIPATION'] = $_POST['AUTO_PARTICIPATION'];
         $donnees['CRENEAU'] = $_POST['CRENEAU'];
         $donnees['DATE_INSCRIPTION'] = date('Y-m-d');
+        $inscription = true;
         if(isset($_POST['famille'])) {
             $donnees['MONTANT'] = $this->calculMontant($id, $adh, $_POST['famille']);
         }
@@ -441,8 +453,18 @@ COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
             $donnees['MONTANT'] = $this->calculMontant($id, $adh, NULL);
         }
         if (!($nombreinscription > $effectifc->places - $effectifc->inscrits)) {
-
-
+            $colonnes = array('ID_ACTIVITE', 'ID_ADHERENT', 'AUTO_PARTICIPATION', 'CRENEAU', 'DATE_INSCRIPTION', 'MONTANT');
+        }
+        elseif(!($nombreinscription > ($effectifca->places*3) - $effectifca->inscrits)){
+            $colonnes = array('ID_ACTIVITE', 'ID_ADHERENT', 'AUTO_PARTICIPATION', 'CRENEAU', 'DATE_INSCRIPTION', 'MONTANT', 'ATTENTE');
+            $donnees['ATTENTE'] = 1;
+            $d['info'] = "L'effectif de cette activité étant complet, vous avez été placé en liste d'attente";
+        }
+        else{
+            $d['info'] = "La liste d'attente est complète";
+            $inscription=false;
+        }
+        if($inscription){
             $valid = true;
 //            $donnees = array();
 //            $donnees['ID_ACTIVITE'] = $id;
@@ -481,7 +503,7 @@ COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
             } else {
 
                 $projection['conditions'] = "ID_ADHERENT = " . $_SESSION['ID_ADHERENT'];
-                $colonnes = array('ID_ACTIVITE', 'ID_ADHERENT', 'AUTO_PARTICIPATION', 'CRENEAU', 'DATE_INSCRIPTION', 'MONTANT');
+
                 $IDInscription = $modInscription->insertAI($colonnes, $donnees);
                 //// Liste des invités ////
                 $modListeInvite = $this->loadModel('ListeInvite');
@@ -519,29 +541,26 @@ COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
                     $data['MONTANT'] = $this->calculMontant($id, $adh, $modListeInviteNom->find($proj));
                     $tab = array('conditions' => array('ID' => $IDInscription), 'donnees' => $data);
                     $modInscription->update($tab);
+                    if(!isset($d['info'])){
                     $d['info'] = "L'inscription à l'activité a été effectuée";
+                    }
                 } else {
                     $d['info'] = "Problème pour s'inscrire à l'activité";
                 }
+//                echo "data";
+//                var_dump($data);
+//                echo "donnees";
+//                var_dump($donnees);
+//                echo "d";
+//                var_dump($d);
+
                 $this->set($d);
                 $this->mesActivites($id);
                 //$this->render('mesActivites');
             }
         }
-        //Si l'effectif est complet
-        else {
-            $donnees['ID_ACTIVITE'] = $id;
-            $donnees['ID_ADHERENT'] = $_SESSION['ID_ADHERENT'];
-            $donnees['CRENEAU'] = $_POST['CRENEAU'];
-            $donnees['DATE_INSCRIPTION'] = date('Y-m-d');
-            $d['info'] = "L'effectif de cette activité étant complet, vous avez été placé en liste d'attente";
-            $this->set($d);
-            $this->listerActivite();
-            $this->render('listerActivite');
-        }
-
-
     }
+
 
     function attente($idactivite){
         $modAttente = $this->loadModel('Attente');
@@ -624,17 +643,17 @@ COUNT(DISTINCT i.ID) + COUNT(li.ID_INVITE)as effectif';
         // requete 3 pour récupérer les info de l'inscription
         $modInscription = $this->loadModel('Inscription');
         $projectionI['conditions'] = "ID_ACTIVITE = {$ID_ACTIVITE} AND ID_ADHERENT = {$_SESSION['ID_ADHERENT']}";
-        var_dump($ID_ACTIVITE);
-        var_dump($_SESSION['ID_ADHERENT']);
+//        var_dump($ID_ACTIVITE);
+//        var_dump($_SESSION['ID_ADHERENT']);
         $d['inscription'] = $modInscription->findfirst($projectionI);
-        var_dump($d['inscription']);
+//        var_dump($d['inscription']);
 
         //requete 4 : on recupère la liste des invites
         $modListeInvite = $this->loadModel('ListeInviteNom');
         $projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']->ID}";
         //$projectionL['conditions'] = "ID_INSCRIPTION = {$d['inscription']}";
         $d['invites'] = $modListeInvite->find($projectionL);
-        var_dump($d['invites']);
+//        var_dump($d['invites']);
         $modCreneaudate = $this->loadModel('ListeCreneau');
         $projectionM['projection'] = "CRENEAU.DATE_PAIEMENT";
         $projectionM['conditions'] = "ID_ACTIVITE = {$ID_ACTIVITE} AND NUM_CRENEAU = {$d['inscription']->CRENEAU}";
