@@ -37,6 +37,7 @@
 <form method="POST" action="<?= BASE_URL . '/activiteLeader/passagePrincipale/' . $donnees->ID_ACTIVITE ?>">
     <input id="creneau" name="creneau" type="hidden" value="<?= $donnees->CRENEAU ?>">
     <input id="id" name="id" type="hidden" value="<?= $donnees->ID ?>">
+    <input id="idadh" name="idadh" type="hidden" value="<?= $donnees->ID_ADHERENT ?>">
     <button class="btn btn-success">Valider le passage en liste principale</button>
 
 </form>

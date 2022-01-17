@@ -113,14 +113,14 @@
 
             <td>
                 <?php if (!empty($creneaux)) {
-                    echo "creneaux";
-                    var_dump($creneaux);
-                    echo "prix adulte";
-                    var_dump( $donnees->PRIX_ADULTE);
-                    echo "invites famille";
-                    var_dump($invitesfamille);
-                    echo "id activité";
-                    var_dump($donnees->ID_ACTIVITE);?>
+//                    echo "creneaux";
+//                    var_dump($creneaux);
+//                    echo "prix adulte";
+//                    var_dump( $donnees->PRIX_ADULTE);
+//                    echo "invites famille";
+//                    var_dump($invitesfamille);
+//                    echo "id activité";
+//                    var_dump($donnees->ID_ACTIVITE);?>
                     <button id="singlebutton" name="singlebutton" class="btn btn-info">S'inscrire</button>
                 <?php } else { ?>
                     <button disabled id="singlebutton" name="singlebutton" class="btn btn-info">S'inscrire</button>
@@ -220,7 +220,7 @@
     </form>
 
 <?php }
-var_dump($creneaux);?>
+//var_dump($creneaux);?>
 <td>
     <button id="singlebutton" name="singlebutton" class="btn btn-info"
             onclick="window.location.href = '../../activite/listerActivite'">Annuler

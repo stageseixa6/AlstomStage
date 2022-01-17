@@ -22,7 +22,7 @@
             <tr>
                 <td> <a href="<?php echo BASE_URL . '/activiteLeader/detail/' . $a->ID_ACTIVITE ?>">Modifier</a> <br>
                     <a href="<?php echo BASE_URL . '/activiteLeader/inscrits/' . $a->ID_ACTIVITE ?>">Inscriptions</a><br>
-                    <a href ="<?php echo BASE_URL . '/activiteLeader/inscrits/mail'?>">Envoyer mail</a>
+                    <a href ="<?php echo BASE_URL . '/activiteLeader/mail/'. $a->ID_ACTIVITE?>">Envoyer mail</a>
                 </td>
                 <td><?= $a->NOM ?></td>
                 <td><?= $a->DETAIL ?></td>

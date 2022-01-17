@@ -61,6 +61,9 @@ class ActiviteAdminController extends Controller {
             $donnees["PRIX_ADULTE"] = $_POST["PRIX_ADULTE"];
             var_dump($_POST["PRIX_ADULTE"]);
         }
+        else{
+            $donnees["PRIX_ADULTE"] = $_POST["COUT_ADULTE"];
+        }
         if($_POST["PRIX_ADULTE_EXT"]!='') {
             $donnees["PRIX_ADULTE_EXT"] = $_POST["PRIX_ADULTE_EXT"];
             var_dump($_POST["PRIX_ADULTE_EXT"]);
@@ -175,7 +178,7 @@ class ActiviteAdminController extends Controller {
         $ID_ACTIVITE = $ids[0];
         $NUM_CRENEAU = $ids[1];
 
-        //$modActivite = $this->loadModel('ActiviteAdmin');
+        $modActivite = $this->loadModel('ActiviteAdmin');
         $donnees["ID_ACTIVITE"] = $ID_ACTIVITE;
         $donnees["DATE_CRENEAU"] = $_POST['DATE_CRENEAU'];
         $donnees["HEURE_CRENEAU"] = $_POST['HEURE_CRENEAU'];
@@ -185,6 +188,7 @@ class ActiviteAdminController extends Controller {
         $colonnes = array('ID_ACTIVITE', 'DATE_CRENEAU', 'HEURE_CRENEAU', 'EFFECTIF_CRENEAU', 'STATUT', 'NUM_CRENEAU', 'COMMENTAIRE');
         $tab = array('conditions' => array('ID_ACTIVITE' => $ID_ACTIVITE, 'NUM_CRENEAU' => $NUM_CRENEAU), 'donnees' => $donnees);
         //appeler la methode update
+//        $this->mailLeader($ID_ACTIVITE);
         $modCreneau->update($tab);
         $this->liste();
         header('Location: ../liste');
@@ -203,6 +207,15 @@ class ActiviteAdminController extends Controller {
         }
         $this->liste();
         header('Location: ../liste');
+    }
+
+    function mailLeader($id){
+        $modInscription = $this->loadModel('NomLeader');
+        $projection['projection'] = 'ADHERENT.mail';
+        $projection['conditions'] = "ACTIVITE.ID = {$id}";
+        $result = $modInscription->find($projection);
+        var_dump($id);
+        var_dump($result);
     }
 
 }
